@@ -1,0 +1,571 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Daysworth — Life calendar &amp; bucket list / 残り時間と、本当にやりたいこと</title>
+<meta name="description" content="メメント・モリ哲学に基づく、寿命可視化×バケットリスト×コミットメントの自己改善アプリ。Daysworth は、あなたの残り日数を週単位で可視化し、本当にやりたいことに今日の一歩を投じるためのアプリです。">
+<style>
+  :root {
+    color-scheme: light dark;
+    --fg: #1a1a1a;
+    --fg-muted: #666;
+    --bg: #fefcf7;
+    --surface: #f5f0e8;
+    --accent: #2d5a3d;
+    --accent-soft: rgba(45, 90, 61, 0.08);
+    --warn: #e8a440;
+    --border: #ddd;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --fg: #e8e8e8;
+      --fg-muted: #999;
+      --bg: #1a1a1a;
+      --surface: #242422;
+      --accent: #6fb38a;
+      --accent-soft: rgba(111, 179, 138, 0.12);
+      --border: #333;
+    }
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Hiragino Sans", "Noto Sans CJK JP", "Helvetica Neue", sans-serif;
+    line-height: 1.8;
+    color: var(--fg);
+    background: var(--bg);
+  }
+  .wrap { max-width: 960px; margin: 0 auto; padding: 40px 24px 80px; }
+  .lang-switch { display: flex; gap: 8px; justify-content: flex-end; margin-bottom: 32px; }
+  .lang-switch button {
+    background: transparent;
+    border: 1px solid var(--border);
+    color: var(--fg);
+    padding: 6px 14px;
+    border-radius: 999px;
+    cursor: pointer;
+    font-size: 12px;
+    font-family: inherit;
+  }
+  .lang-switch button.active {
+    background: var(--accent);
+    color: white;
+    border-color: var(--accent);
+  }
+  .hero { margin-bottom: 48px; text-align: center; }
+  .brand {
+    font-size: 13px;
+    color: var(--fg-muted);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-bottom: 12px;
+  }
+  h1 { font-size: 36px; margin: 0 0 16px; color: var(--fg); font-weight: 500; line-height: 1.3; }
+  .tagline { font-size: 18px; color: var(--fg-muted); margin: 0 0 24px; font-weight: 400; }
+  h2 { font-size: 22px; margin: 56px 0 16px; color: var(--fg); font-weight: 500; text-align: center; }
+  h2 .sub { display: block; font-size: 13px; color: var(--fg-muted); margin-top: 4px; font-weight: 400; }
+  p { color: var(--fg); font-size: 15px; margin: 0 0 16px; }
+  ul { padding-left: 1.4em; margin: 0 0 16px; }
+  li { color: var(--fg); font-size: 15px; margin-bottom: 6px; }
+
+  .intro { max-width: 640px; margin: 0 auto 32px; }
+  .intro p { text-align: center; }
+
+  /* Theme showcase */
+  .themes {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 16px;
+    margin: 24px 0 16px;
+  }
+  .theme {
+    text-align: center;
+  }
+  .theme img {
+    width: 100%;
+    max-width: 220px;
+    height: auto;
+    border-radius: 18px;
+    box-shadow: 0 8px 28px rgba(0, 0, 0, 0.12);
+    border: 1px solid var(--border);
+    display: block;
+    margin: 0 auto 12px;
+  }
+  .theme-name {
+    font-size: 13px;
+    color: var(--accent);
+    font-weight: 500;
+    margin: 0;
+  }
+  .theme-desc {
+    font-size: 12px;
+    color: var(--fg-muted);
+    margin: 4px 0 0;
+  }
+
+  /* Feature gallery (with screenshots) */
+  .screens {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 32px;
+    margin: 24px 0 16px;
+  }
+  .screen {
+    text-align: center;
+  }
+  .screen img {
+    width: 100%;
+    max-width: 260px;
+    height: auto;
+    border-radius: 18px;
+    box-shadow: 0 8px 28px rgba(0, 0, 0, 0.12);
+    border: 1px solid var(--border);
+    display: block;
+    margin: 0 auto 12px;
+  }
+  .screen h3 {
+    font-size: 16px;
+    margin: 0 0 6px;
+    color: var(--accent);
+    font-weight: 500;
+  }
+  .screen p {
+    margin: 0;
+    font-size: 13px;
+    color: var(--fg-muted);
+    line-height: 1.6;
+    max-width: 260px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  /* Feature cards (text-only) */
+  .features {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 16px;
+    margin: 24px 0 16px;
+  }
+  .feature {
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 20px;
+    background: var(--accent-soft);
+  }
+  .feature h3 {
+    margin: 0 0 8px;
+    font-size: 15px;
+    font-weight: 500;
+    color: var(--accent);
+  }
+  .feature p {
+    margin: 0;
+    font-size: 14px;
+    color: var(--fg);
+    line-height: 1.6;
+  }
+
+  .cta {
+    display: inline-block;
+    padding: 12px 24px;
+    border-radius: 8px;
+    background: var(--accent);
+    color: white;
+    text-decoration: none;
+    font-weight: 500;
+    margin: 8px 8px 8px 0;
+    font-size: 14px;
+  }
+  .cta.disabled {
+    background: transparent;
+    color: var(--fg-muted);
+    border: 1px solid var(--border);
+    cursor: not-allowed;
+  }
+  .center { text-align: center; }
+  .lang-section { display: none; }
+  .lang-section.active { display: block; }
+  footer {
+    color: var(--fg-muted);
+    font-size: 12px;
+    margin-top: 64px;
+    padding-top: 24px;
+    border-top: 1px solid var(--border);
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+    justify-content: space-between;
+    align-items: center;
+  }
+  footer a {
+    color: var(--fg-muted);
+    text-decoration: none;
+    border-bottom: 1px dotted var(--fg-muted);
+  }
+  footer a:hover { color: var(--accent); border-color: var(--accent); }
+  .quote {
+    border-left: 3px solid var(--accent);
+    padding-left: 16px;
+    margin: 24px auto;
+    max-width: 560px;
+    color: var(--fg-muted);
+    font-style: italic;
+    text-align: left;
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<div class="lang-switch">
+  <button data-lang="ja" class="active">日本語</button>
+  <button data-lang="en">English</button>
+  <button data-lang="zh">简体中文</button>
+</div>
+
+<!-- 日本語 -->
+<section class="lang-section active" data-lang="ja">
+  <div class="hero">
+    <div class="brand">Daysworth</div>
+    <h1>残り時間と、本当にやりたいこと。</h1>
+    <p class="tagline">人生は有限。あなたの日々に、価値を。</p>
+  </div>
+
+  <div class="intro">
+    <p>
+      Daysworth は、メメント・モリ（死を思え）の哲学に基づく自己改善アプリです。
+      あなたの寿命までの残り日数を週単位で可視化し、「死ぬまでにやりたいこと」を
+      ゴールとして登録、達成までのステップを記録します。
+    </p>
+    <p class="quote">Tempus fugit — 時は飛ぶ。だからこそ、今日を生きる。</p>
+  </div>
+
+  <h2>あなたの人生を、一目で
+    <span class="sub">4つのテーマから気分に合わせて選べます</span>
+  </h2>
+  <div class="themes">
+    <div class="theme">
+      <img src="screenshots/life-light.jpg" alt="Daysworth 人生カレンダー Light テーマ" loading="lazy">
+      <p class="theme-name">Light</p>
+      <p class="theme-desc">温白 × 深緑</p>
+    </div>
+    <div class="theme">
+      <img src="screenshots/life-dark.jpg" alt="Daysworth 人生カレンダー Memento Mori テーマ" loading="lazy">
+      <p class="theme-name">Memento Mori</p>
+      <p class="theme-desc">墨色 × 骨白</p>
+    </div>
+    <div class="theme">
+      <img src="screenshots/life-sepia.jpg" alt="Daysworth 人生カレンダー Sepia テーマ" loading="lazy">
+      <p class="theme-name">Sepia</p>
+      <p class="theme-desc">古紙 × 赤茶</p>
+    </div>
+    <div class="theme">
+      <img src="screenshots/life-forest.jpg" alt="Daysworth 人生カレンダー Forest テーマ" loading="lazy">
+      <p class="theme-name">Forest</p>
+      <p class="theme-desc">深緑 × 若葉</p>
+    </div>
+  </div>
+
+  <h2>主な機能
+    <span class="sub">5つの画面で人生を設計</span>
+  </h2>
+  <div class="screens">
+    <div class="screen">
+      <img src="screenshots/now.png" alt="今日のタスク画面" loading="lazy">
+      <h3>今</h3>
+      <p>今日取り組むべきタスクと、本日の締切を一目で把握。「今日は休む」ボタンで無理しない。</p>
+    </div>
+    <div class="screen">
+      <img src="screenshots/add-goal.png" alt="ゴール追加画面" loading="lazy">
+      <h3>ゴール追加</h3>
+      <p>自分の言葉で「死ぬまでにやりたいこと」を登録。人気のゴールから選ぶことも可能。</p>
+    </div>
+    <div class="screen">
+      <img src="screenshots/popular-goals.png" alt="人気のゴール一覧" loading="lazy">
+      <h3>人気のゴール</h3>
+      <p>世界68件・日本88件のプリセットから選ぶだけ。47都道府県制覇、お遍路、富士山頂で初日の出など。</p>
+    </div>
+    <div class="screen">
+      <img src="screenshots/goal-detail.png" alt="ゴール詳細とステップ" loading="lazy">
+      <h3>ステップ管理</h3>
+      <p>ゴールを小さなステップに分解。プリセットの推奨ステップから取り込んだり、自由に追加。</p>
+    </div>
+    <div class="screen">
+      <img src="screenshots/commitment.png" alt="約束と自分への手紙" loading="lazy">
+      <h3>約束 / 自分への手紙</h3>
+      <p>大切な目標は「約束」として登録。辛い時に読み返す、未来の自分へのメッセージも書き残せます。</p>
+    </div>
+  </div>
+
+  <h2>このアプリの特徴</h2>
+  <div class="features">
+    <div class="feature">
+      <h3>人生カレンダー（Life in Weeks）</h3>
+      <p>寿命までの全ての週を 1 マスで表示。生きた週は埋まり、残された週は空白に。</p>
+    </div>
+    <div class="feature">
+      <h3>完全オフライン</h3>
+      <p>すべてのデータは端末内にローカル保存。アカウント登録不要、トラッキング無し、広告無し。</p>
+    </div>
+    <div class="feature">
+      <h3>156件のプリセットゴール</h3>
+      <p>世界68件・日本88件の人気ゴール（オーロラ、マチュピチュ、お遍路、47都道府県制覇など）から選択可能。</p>
+    </div>
+    <div class="feature">
+      <h3>マルチテーマ</h3>
+      <p>4つのテーマ（Light / Memento Mori / Sepia / Forest）から、あなたの気分に合わせて選べます。</p>
+    </div>
+  </div>
+
+  <h2>ダウンロード</h2>
+  <p class="center">
+    <a class="cta disabled" aria-disabled="true">Google Play（準備中）</a>
+    <a class="cta disabled" aria-disabled="true">App Store（準備中）</a>
+  </p>
+
+  <h2>このアプリについて</h2>
+  <p class="center">
+    開発：kuro game studio（個人開発）<br>
+    お問い合わせ：<a href="mailto:kurogamestudio.support@gmail.com">kurogamestudio.support@gmail.com</a>
+  </p>
+</section>
+
+<!-- English -->
+<section class="lang-section" data-lang="en">
+  <div class="hero">
+    <div class="brand">Daysworth</div>
+    <h1>Your remaining days, and what truly matters.</h1>
+    <p class="tagline">Life is finite. Make your days worth living.</p>
+  </div>
+
+  <div class="intro">
+    <p>
+      Daysworth is a self-improvement app rooted in the Memento Mori philosophy.
+      It visualizes your remaining days as a calendar of weeks, lets you register
+      "things to do before you die", and helps you track every step toward them.
+    </p>
+    <p class="quote">Tempus fugit — time flies. So live today fully.</p>
+  </div>
+
+  <h2>See your life at a glance
+    <span class="sub">Pick from 4 themes that suit your mood</span>
+  </h2>
+  <div class="themes">
+    <div class="theme">
+      <img src="screenshots/life-light.jpg" alt="Daysworth Life in Weeks Light theme" loading="lazy">
+      <p class="theme-name">Light</p>
+      <p class="theme-desc">Warm white × Deep green</p>
+    </div>
+    <div class="theme">
+      <img src="screenshots/life-dark.jpg" alt="Daysworth Life in Weeks Memento Mori theme" loading="lazy">
+      <p class="theme-name">Memento Mori</p>
+      <p class="theme-desc">Ink × Bone white</p>
+    </div>
+    <div class="theme">
+      <img src="screenshots/life-sepia.jpg" alt="Daysworth Life in Weeks Sepia theme" loading="lazy">
+      <p class="theme-name">Sepia</p>
+      <p class="theme-desc">Paper × Red brown</p>
+    </div>
+    <div class="theme">
+      <img src="screenshots/life-forest.jpg" alt="Daysworth Life in Weeks Forest theme" loading="lazy">
+      <p class="theme-name">Forest</p>
+      <p class="theme-desc">Deep green × Young leaf</p>
+    </div>
+  </div>
+
+  <h2>Key screens
+    <span class="sub">5 views to design your life</span>
+  </h2>
+  <div class="screens">
+    <div class="screen">
+      <img src="screenshots/now.png" alt="Today's tasks screen" loading="lazy">
+      <h3>Now</h3>
+      <p>See what to work on today and what's due. A "rest today" button keeps you from overdoing it.</p>
+    </div>
+    <div class="screen">
+      <img src="screenshots/add-goal.png" alt="Add a goal screen" loading="lazy">
+      <h3>Add a goal</h3>
+      <p>Register your own bucket-list dreams, or pick from a curated list of popular goals.</p>
+    </div>
+    <div class="screen">
+      <img src="screenshots/popular-goals.png" alt="Popular goals list" loading="lazy">
+      <h3>Popular goals</h3>
+      <p>Choose from 68 global and 88 Japan-themed presets — aurora hunting, Machu Picchu, Mt. Fuji sunrise and more.</p>
+    </div>
+    <div class="screen">
+      <img src="screenshots/goal-detail.png" alt="Goal detail and steps" loading="lazy">
+      <h3>Step tracking</h3>
+      <p>Break each goal into small steps. Pull in recommended preset steps or add your own freely.</p>
+    </div>
+    <div class="screen">
+      <img src="screenshots/commitment.png" alt="Commitments and letter to self" loading="lazy">
+      <h3>Commitment / Letter</h3>
+      <p>Mark key goals as "commitments". Write a letter to your future self to reread on hard days.</p>
+    </div>
+  </div>
+
+  <h2>What makes Daysworth different</h2>
+  <div class="features">
+    <div class="feature">
+      <h3>Life in Weeks</h3>
+      <p>Every week of your life shown as a single cell. Filled for weeks lived, empty for weeks ahead.</p>
+    </div>
+    <div class="feature">
+      <h3>Fully offline</h3>
+      <p>All data stays on your device. No account, no tracking, no ads.</p>
+    </div>
+    <div class="feature">
+      <h3>156 preset goals</h3>
+      <p>68 global + 88 Japan-themed popular goals: aurora, Machu Picchu, the 88 temple pilgrimage and more.</p>
+    </div>
+    <div class="feature">
+      <h3>Multiple themes</h3>
+      <p>Choose from 4 themes (Light / Memento Mori / Sepia / Forest) to match your mood.</p>
+    </div>
+  </div>
+
+  <h2>Download</h2>
+  <p class="center">
+    <a class="cta disabled" aria-disabled="true">Google Play (coming soon)</a>
+    <a class="cta disabled" aria-disabled="true">App Store (coming soon)</a>
+  </p>
+
+  <h2>About</h2>
+  <p class="center">
+    Developed by kuro game studio (independent).<br>
+    Contact: <a href="mailto:kurogamestudio.support@gmail.com">kurogamestudio.support@gmail.com</a>
+  </p>
+</section>
+
+<!-- 简体中文 -->
+<section class="lang-section" data-lang="zh">
+  <div class="hero">
+    <div class="brand">Daysworth</div>
+    <h1>余生与你真正想做的事。</h1>
+    <p class="tagline">人生有限，让每一天都有价值。</p>
+  </div>
+
+  <div class="intro">
+    <p>
+      Daysworth 是一款基于 Memento Mori（勿忘人终有一死）哲学的自我提升应用。
+      它以周为单位可视化你剩余的日子，让你登记"死之前想完成的事"，
+      并陪你一步步走向目标。
+    </p>
+    <p class="quote">Tempus fugit ——时光飞逝，所以活在当下。</p>
+  </div>
+
+  <h2>一眼看清你的人生
+    <span class="sub">从 4 种主题中选择适合你心境的一款</span>
+  </h2>
+  <div class="themes">
+    <div class="theme">
+      <img src="screenshots/life-light.jpg" alt="Daysworth 人生日历 Light 主题" loading="lazy">
+      <p class="theme-name">Light</p>
+      <p class="theme-desc">温白 × 深绿</p>
+    </div>
+    <div class="theme">
+      <img src="screenshots/life-dark.jpg" alt="Daysworth 人生日历 Memento Mori 主题" loading="lazy">
+      <p class="theme-name">Memento Mori</p>
+      <p class="theme-desc">墨色 × 骨白</p>
+    </div>
+    <div class="theme">
+      <img src="screenshots/life-sepia.jpg" alt="Daysworth 人生日历 Sepia 主题" loading="lazy">
+      <p class="theme-name">Sepia</p>
+      <p class="theme-desc">古纸 × 红棕</p>
+    </div>
+    <div class="theme">
+      <img src="screenshots/life-forest.jpg" alt="Daysworth 人生日历 Forest 主题" loading="lazy">
+      <p class="theme-name">Forest</p>
+      <p class="theme-desc">深绿 × 嫩叶</p>
+    </div>
+  </div>
+
+  <h2>核心画面
+    <span class="sub">5 个视图，设计你的人生</span>
+  </h2>
+  <div class="screens">
+    <div class="screen">
+      <img src="screenshots/now.png" alt="今日任务画面" loading="lazy">
+      <h3>今</h3>
+      <p>一眼看清今天该做什么，截止日期是何时。"今天休息"按钮防止过度。</p>
+    </div>
+    <div class="screen">
+      <img src="screenshots/add-goal.png" alt="添加目标画面" loading="lazy">
+      <h3>添加目标</h3>
+      <p>用自己的话登记"死之前想做的事"，也可从热门目标中选取。</p>
+    </div>
+    <div class="screen">
+      <img src="screenshots/popular-goals.png" alt="热门目标列表" loading="lazy">
+      <h3>热门目标</h3>
+      <p>从 68 个全球热门和 88 个日本主题的预设中挑选——极光、马丘比丘、富士山顶看日出等。</p>
+    </div>
+    <div class="screen">
+      <img src="screenshots/goal-detail.png" alt="目标详情与步骤" loading="lazy">
+      <h3>步骤管理</h3>
+      <p>把目标拆成小步骤。从预设推荐步骤导入，或自由添加。</p>
+    </div>
+    <div class="screen">
+      <img src="screenshots/commitment.png" alt="约定与给自己的信" loading="lazy">
+      <h3>约定 / 给自己的信</h3>
+      <p>重要目标登记为"约定"。在艰难时刻重读你写给未来自己的信。</p>
+    </div>
+  </div>
+
+  <h2>本应用的特色</h2>
+  <div class="features">
+    <div class="feature">
+      <h3>人生日历（Life in Weeks）</h3>
+      <p>用一格表示一周。已度过的填满，未来的空白。</p>
+    </div>
+    <div class="feature">
+      <h3>完全离线</h3>
+      <p>所有数据本地保存。无需注册，无追踪，无广告。</p>
+    </div>
+    <div class="feature">
+      <h3>156 个预设目标</h3>
+      <p>68 个全球 + 88 个日本主题：极光、马丘比丘、四国八十八处巡礼等。</p>
+    </div>
+    <div class="feature">
+      <h3>多种主题</h3>
+      <p>从 4 种主题（Light / Memento Mori / Sepia / Forest）中选择适合你心情的。</p>
+    </div>
+  </div>
+
+  <h2>下载</h2>
+  <p class="center">
+    <a class="cta disabled" aria-disabled="true">Google Play（即将上线）</a>
+    <a class="cta disabled" aria-disabled="true">App Store（即将上线）</a>
+  </p>
+
+  <h2>关于</h2>
+  <p class="center">
+    开发：kuro game studio（个人开发）<br>
+    联系：<a href="mailto:kurogamestudio.support@gmail.com">kurogamestudio.support@gmail.com</a>
+  </p>
+</section>
+
+<footer>
+  <div>© 2026 Daysworth · kuro game studio</div>
+  <div>
+    <a href="privacy-policy.html">Privacy Policy / プライバシーポリシー / 隐私政策</a>
+  </div>
+</footer>
+
+</div>
+
+<script>
+  const buttons = document.querySelectorAll('.lang-switch button');
+  const sections = document.querySelectorAll('.lang-section');
+  buttons.forEach(btn => {
+    btn.addEventListener('click', () => {
+      const lang = btn.dataset.lang;
+      buttons.forEach(b => b.classList.toggle('active', b.dataset.lang === lang));
+      sections.forEach(s => s.classList.toggle('active', s.dataset.lang === lang));
+      document.documentElement.lang = lang === 'zh' ? 'zh-CN' : lang;
+    });
+  });
+</script>
+
+</body>
+</html>
