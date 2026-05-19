@@ -184,6 +184,74 @@
     cursor: not-allowed;
   }
 
+  /* Booth download cards */
+  .booth {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 16px;
+    margin: 16px auto;
+    max-width: 720px;
+  }
+  .booth-card {
+    display: block;
+    text-decoration: none;
+    color: inherit;
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 24px 20px;
+    background: var(--bg);
+    transition: transform 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease;
+  }
+  .booth-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 28px rgba(45, 90, 61, 0.12);
+    border-color: var(--accent);
+  }
+  .booth-card-support {
+    background: var(--accent-soft);
+    border-color: var(--accent);
+  }
+  .booth-label {
+    display: inline-block;
+    font-size: 11px;
+    color: var(--accent);
+    background: var(--accent-soft);
+    padding: 3px 10px;
+    border-radius: 999px;
+    margin-bottom: 12px;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+  }
+  .booth-card-support .booth-label {
+    background: var(--accent);
+    color: white;
+  }
+  .booth-title {
+    font-size: 18px;
+    font-weight: 500;
+    color: var(--fg);
+    margin: 0 0 8px;
+    line-height: 1.4;
+  }
+  .booth-price {
+    font-size: 24px;
+    font-weight: 600;
+    color: var(--accent);
+    margin: 0 0 6px;
+  }
+  .booth-desc {
+    font-size: 13px;
+    color: var(--fg-muted);
+    line-height: 1.6;
+  }
+  .booth-arrow {
+    display: block;
+    font-size: 12px;
+    color: var(--accent);
+    margin-top: 12px;
+    font-weight: 500;
+  }
+
   /* Beta tester recruitment */
   .beta {
     background: var(--accent-soft);
@@ -406,6 +474,26 @@
     PC・スマホのブラウザから即時アクセス可能。ホーム画面に追加して PWA として使えます。
   </p>
 
+  <h2>デスクトップ版を入手
+    <span class="sub">Booth で配信中 · macOS / Windows 対応</span>
+  </h2>
+  <div class="booth">
+    <a class="booth-card" href="https://kurogamestudio.booth.pm/items/8382331" target="_blank" rel="noopener">
+      <span class="booth-label">無料版</span>
+      <div class="booth-title">Daysworth</div>
+      <div class="booth-price">¥0</div>
+      <div class="booth-desc">macOS（Apple Silicon / Intel）と Windows 用バイナリを同梱。</div>
+      <span class="booth-arrow">Booth で入手 →</span>
+    </a>
+    <a class="booth-card booth-card-support" href="https://kurogamestudio.booth.pm/items/8382711" target="_blank" rel="noopener">
+      <span class="booth-label">応援版</span>
+      <div class="booth-title">Daysworth ＋ サンクスPDF</div>
+      <div class="booth-price">¥200</div>
+      <div class="booth-desc">機能は無料版と同じ。開発者からのサンクスメッセージ PDF（5 ページ）を同梱。</div>
+      <span class="booth-arrow">Booth で応援する →</span>
+    </a>
+  </div>
+
   <h2>ベータテスター募集中
     <span class="sub">v1.0 公開前に Daysworth を試せる</span>
   </h2>
@@ -540,6 +628,26 @@
     Works on any browser, desktop or mobile. Add to home screen to use it as a PWA.
   </p>
 
+  <h2>Get the desktop version
+    <span class="sub">Available on Booth · macOS / Windows</span>
+  </h2>
+  <div class="booth">
+    <a class="booth-card" href="https://kurogamestudio.booth.pm/items/8382331" target="_blank" rel="noopener">
+      <span class="booth-label">FREE</span>
+      <div class="booth-title">Daysworth</div>
+      <div class="booth-price">¥0</div>
+      <div class="booth-desc">Includes macOS (Apple Silicon / Intel) and Windows builds.</div>
+      <span class="booth-arrow">Get on Booth →</span>
+    </a>
+    <a class="booth-card booth-card-support" href="https://kurogamestudio.booth.pm/items/8382711" target="_blank" rel="noopener">
+      <span class="booth-label">SUPPORTER</span>
+      <div class="booth-title">Daysworth + Thank-you PDF</div>
+      <div class="booth-price">¥200</div>
+      <div class="booth-desc">Same app as free. Adds a 5-page thank-you letter from the developer.</div>
+      <span class="booth-arrow">Support on Booth →</span>
+    </a>
+  </div>
+
   <h2>Beta testers wanted
     <span class="sub">Try Daysworth before v1.0 launch</span>
   </h2>
@@ -673,6 +781,26 @@
   <p class="beta-note" style="text-align:center;">
     PC 和手机浏览器均可立即访问。可"添加到主屏幕"作为 PWA 使用。
   </p>
+
+  <h2>获取桌面版
+    <span class="sub">Booth 上线 · 支持 macOS / Windows</span>
+  </h2>
+  <div class="booth">
+    <a class="booth-card" href="https://kurogamestudio.booth.pm/items/8382331" target="_blank" rel="noopener">
+      <span class="booth-label">免费版</span>
+      <div class="booth-title">Daysworth</div>
+      <div class="booth-price">¥0</div>
+      <div class="booth-desc">包含 macOS（Apple Silicon / Intel）和 Windows 版本。</div>
+      <span class="booth-arrow">在 Booth 获取 →</span>
+    </a>
+    <a class="booth-card booth-card-support" href="https://kurogamestudio.booth.pm/items/8382711" target="_blank" rel="noopener">
+      <span class="booth-label">支持版</span>
+      <div class="booth-title">Daysworth ＋ 致谢 PDF</div>
+      <div class="booth-price">¥200</div>
+      <div class="booth-desc">功能与免费版相同。附赠开发者亲笔致谢 PDF（5 页）。</div>
+      <span class="booth-arrow">在 Booth 支持 →</span>
+    </a>
+  </div>
 
   <h2>招募 Beta 测试者
     <span class="sub">v1.0 正式发布前先行体验</span>
