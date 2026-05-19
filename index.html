@@ -183,6 +183,84 @@
     border: 1px solid var(--border);
     cursor: not-allowed;
   }
+
+  /* Beta tester recruitment */
+  .beta {
+    background: var(--accent-soft);
+    border: 1px solid var(--accent);
+    border-radius: 16px;
+    padding: 32px 24px;
+    margin: 16px auto;
+    max-width: 640px;
+    text-align: center;
+  }
+  .beta-badge {
+    display: inline-block;
+    background: var(--accent);
+    color: white;
+    padding: 4px 14px;
+    border-radius: 999px;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    margin-bottom: 16px;
+  }
+  .beta h3 {
+    font-size: 20px;
+    margin: 0 0 12px;
+    color: var(--fg);
+    font-weight: 500;
+  }
+  .beta > p {
+    font-size: 14px;
+    color: var(--fg);
+    max-width: 480px;
+    margin: 0 auto 16px;
+    line-height: 1.7;
+  }
+  .beta ul {
+    text-align: left;
+    margin: 0 auto 16px;
+    max-width: 380px;
+    padding: 0;
+    list-style: none;
+  }
+  .beta li {
+    font-size: 13px;
+    color: var(--fg);
+    margin-bottom: 6px;
+    padding-left: 22px;
+    position: relative;
+    line-height: 1.7;
+  }
+  .beta li::before {
+    content: "✓";
+    color: var(--accent);
+    font-weight: 700;
+    position: absolute;
+    left: 0;
+    top: 0;
+  }
+  .beta-cta {
+    display: inline-block;
+    padding: 14px 32px;
+    border-radius: 10px;
+    background: var(--accent);
+    color: white !important;
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 15px;
+    margin: 8px 0 6px;
+    transition: opacity 0.15s ease;
+  }
+  .beta-cta:hover { opacity: 0.88; }
+  .beta-note {
+    font-size: 11px;
+    color: var(--fg-muted);
+    margin: 8px auto 0;
+    max-width: 440px;
+    line-height: 1.6;
+  }
   .center { text-align: center; }
   .lang-section { display: none; }
   .lang-section.active { display: block; }
@@ -318,11 +396,28 @@
     </div>
   </div>
 
-  <h2>ダウンロード</h2>
-  <p class="center">
-    <a class="cta disabled" aria-disabled="true">Google Play（準備中）</a>
-    <a class="cta disabled" aria-disabled="true">App Store（準備中）</a>
-  </p>
+  <h2>ベータテスター募集中
+    <span class="sub">v1.0 公開前に Daysworth を試せる</span>
+  </h2>
+  <div class="beta">
+    <span class="beta-badge">CLOSED BETA</span>
+    <h3>クローズドベータテスターを募集しています</h3>
+    <p>
+      Google Play のクローズドテストに参加いただける方を募集しています。
+      Android 端末にインストールし、約3週間お試しいただける方を歓迎します。
+    </p>
+    <ul>
+      <li>必要なもの：Android 端末 + Google アカウント</li>
+      <li>テスト期間：約3週間（v1.0 公開まで）</li>
+      <li>参加コスト：無料・いつでも離脱可</li>
+      <li>特典：v1.0 公開前のフィードバック機会、初期サポーター扱い</li>
+    </ul>
+    <a class="beta-cta" href="mailto:kurogamestudio.support@gmail.com?subject=Daysworth%20%E3%82%AF%E3%83%AD%E3%83%BC%E3%82%BA%E3%83%89%E3%83%99%E3%83%BC%E3%82%BF%E5%8F%82%E5%8A%A0%E5%B8%8C%E6%9C%9B&body=%E2%96%A0%20Daysworth%20%E3%82%AF%E3%83%AD%E3%83%BC%E3%82%BA%E3%83%89%E3%83%99%E3%83%BC%E3%82%BF%E5%8F%82%E5%8A%A0%E5%B8%8C%E6%9C%9B%0A%0AGoogle%20%E3%82%A2%E3%82%AB%E3%82%A6%E3%83%B3%E3%83%88%E3%83%A1%E3%83%BC%E3%83%AB%EF%BC%9A%0A%0AAndroid%20%E7%AB%AF%E6%9C%AB%E6%A9%9F%E7%A8%AE%EF%BC%88%E4%BB%BB%E6%84%8F%EF%BC%89%EF%BC%9A%0A%0A%E4%B8%80%E8%A8%80%EF%BC%88%E4%BB%BB%E6%84%8F%EF%BC%89%EF%BC%9A%0A">メールで参加申込</a>
+    <p class="beta-note">
+      クリックするとメールアプリが起動します。Google アカウントメールを記載してご送信ください。
+      受信後、24時間以内に Play Console にテスターとして登録し、招待リンクをお送りします。
+    </p>
+  </div>
 
   <h2>このアプリについて</h2>
   <p class="center">
@@ -425,11 +520,28 @@
     </div>
   </div>
 
-  <h2>Download</h2>
-  <p class="center">
-    <a class="cta disabled" aria-disabled="true">Google Play (coming soon)</a>
-    <a class="cta disabled" aria-disabled="true">App Store (coming soon)</a>
-  </p>
+  <h2>Beta testers wanted
+    <span class="sub">Try Daysworth before v1.0 launch</span>
+  </h2>
+  <div class="beta">
+    <span class="beta-badge">CLOSED BETA</span>
+    <h3>Join our closed beta program</h3>
+    <p>
+      We're looking for people to join the Google Play closed test.
+      Install on your Android device and try it for about three weeks.
+    </p>
+    <ul>
+      <li>Required: Android device + Google account</li>
+      <li>Test duration: about 3 weeks (until v1.0 launch)</li>
+      <li>Cost: free, leave anytime</li>
+      <li>Perks: pre-launch feedback channel, "early supporter" status</li>
+    </ul>
+    <a class="beta-cta" href="mailto:kurogamestudio.support@gmail.com?subject=Daysworth%20Closed%20Beta%20Application&body=%E2%96%A0%20Apply%20for%20Daysworth%20Closed%20Beta%0A%0AGoogle%20account%20email%3A%0A%0AAndroid%20device%20model%20(optional)%3A%0A%0AAny%20comments%20(optional)%3A%0A">Email to apply</a>
+    <p class="beta-note">
+      Clicking opens your email app. Please include your Google account email.
+      We'll add you to Play Console within 24 hours and send back an invite link.
+    </p>
+  </div>
 
   <h2>About</h2>
   <p class="center">
@@ -532,11 +644,28 @@
     </div>
   </div>
 
-  <h2>下载</h2>
-  <p class="center">
-    <a class="cta disabled" aria-disabled="true">Google Play（即将上线）</a>
-    <a class="cta disabled" aria-disabled="true">App Store（即将上线）</a>
-  </p>
+  <h2>招募 Beta 测试者
+    <span class="sub">v1.0 正式发布前先行体验</span>
+  </h2>
+  <div class="beta">
+    <span class="beta-badge">CLOSED BETA</span>
+    <h3>欢迎加入 Daysworth 封闭测试</h3>
+    <p>
+      我们正在 Google Play 封闭测试中招募测试者。
+      请在 Android 设备上安装试用约 3 周。
+    </p>
+    <ul>
+      <li>需要：Android 设备 + Google 账号</li>
+      <li>测试周期：约 3 周（v1.0 发布前）</li>
+      <li>费用：免费，随时可退出</li>
+      <li>福利：发布前反馈渠道，"早期支持者"身份</li>
+    </ul>
+    <a class="beta-cta" href="mailto:kurogamestudio.support@gmail.com?subject=Daysworth%20%E5%B0%81%E9%97%AD%E6%B5%8B%E8%AF%95%E7%94%B3%E8%AF%B7&body=%E2%96%A0%20%E7%94%B3%E8%AF%B7%E5%8A%A0%E5%85%A5%20Daysworth%20%E5%B0%81%E9%97%AD%E6%B5%8B%E8%AF%95%0A%0AGoogle%20%E8%B4%A6%E5%8F%B7%E9%82%AE%E7%AE%B1%EF%BC%9A%0A%0AAndroid%20%E8%AE%BE%E5%A4%87%E5%9E%8B%E5%8F%B7%EF%BC%88%E9%80%89%E5%A1%AB%EF%BC%89%EF%BC%9A%0A%0A%E5%85%B6%E4%BB%96%E8%AF%B4%E6%98%8E%EF%BC%88%E9%80%89%E5%A1%AB%EF%BC%89%EF%BC%9A%0A">邮件申请加入</a>
+    <p class="beta-note">
+      点击后会打开邮件应用。请填写您的 Google 账号邮箱并发送。
+      我们将在 24 小时内通过 Play Console 添加为测试者，并回复邀请链接。
+    </p>
+  </div>
 
   <h2>关于</h2>
   <p class="center">
